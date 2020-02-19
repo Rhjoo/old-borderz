@@ -12,6 +12,7 @@ const currentLocation = {
 const Map = () => {
   return <MapView 
       style={styles.map} 
+      provider={MapView.PROVIDER_GOOGLE}
       initialRegion={{
         ...currentLocation.coords,
         latitudeDelta: 0.01,
