@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import MapView, { Circle } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Circle } from 'react-native-maps';
 
 const currentLocation = {
   coords: {
@@ -12,7 +12,7 @@ const currentLocation = {
 const Map = () => {
   return <MapView 
       style={styles.map} 
-      provider={MapView.PROVIDER_GOOGLE}
+      provider={PROVIDER_GOOGLE}
       initialRegion={{
         ...currentLocation.coords,
         latitudeDelta: 0.01,
