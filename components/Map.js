@@ -13,17 +13,19 @@ const Map = () => {
   return <MapView 
       style={styles.map} 
       provider={PROVIDER_GOOGLE}
+      showsUserLocation={true}
+      // followsUserLocation={true}
       initialRegion={{
         ...currentLocation.coords,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01
       }} 
     >
-      <Circle 
+      {/* <Circle 
         center={currentLocation.coords} 
         radius={30} 
         strokeColor="rgba(158, 158, 255, 1.0)" 
-        fillColor="rgba(158, 158, 255, 0.3)" />
+        fillColor="rgba(158, 158, 255, 0.3)" /> */}
     </MapView>
 };
 
