@@ -26,7 +26,7 @@ const Map = () => {
       provider={PROVIDER_GOOGLE}
       showsUserLocation={true}
       followsUserLocation={true}
-      showCompass={true}
+      showsCompass={true}
       region={{
         latitude: location.latitude,
         longitude: location.longitude,
