@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
+import useInterval from './useInterval';
 
 const Map = () => {
   const [location, setLocation] = useState({
@@ -35,6 +36,11 @@ const Map = () => {
     reverseLocation();
   }, []);
 
+  useInterval(() => {
+    getLocation();
+    reverseLocation();
+  }, 3000);
+
   return (
     <>
       <MapView 
@@ -51,8 +57,11 @@ const Map = () => {
         }} 
       />
       <View>
-        <Text style={styles.text}>
-          {city}
+        <Text style={styles.text1}>
+          {location.latitude} {' '} {location.longitude}
+        </Text>
+        <Text style={styles.text2}>
+          {city ? city : "undefined"}
         </Text>
       </View>
     </>
@@ -63,7 +72,11 @@ const styles = StyleSheet.create({
   map: {
     height: "90%"
   },
-  text: {
+  text1: {
+    fontSize: 20,
+    textAlign: "center"
+  },
+  text2: {
     fontSize: 30,
     textAlign: "center"
   }
