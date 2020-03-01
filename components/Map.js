@@ -61,7 +61,7 @@ const Map = () => {
           {location.latitude} {' '} {location.longitude}
         </Text>
         <Text style={styles.text2}>
-          {city ? city : "undefined"}
+          {city}
         </Text>
       </View>
     </>
