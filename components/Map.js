@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import MapView, { PROVIDER_GOOGLE, Polygon } from 'react-native-maps';
 import * as Location from 'expo-location';
 import useInterval from './useInterval';
 
@@ -11,6 +11,8 @@ const Map = () => {
   });
 
   const [city, setCity] = useState("");
+
+  const [borders, setBorders] = useState([]);
 
   const getLocation = async () => {
     let position = await Location.getCurrentPositionAsync({});
@@ -31,21 +33,48 @@ const Map = () => {
     );
   };
 
+  const getBorders = () => {
+    fetch(
+      "https://nominatim.openstreetmap.org/search.php?q=Arcadia+California&polygon_geojson=1&format=json"
+    )
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        return data[0].geojson.coordinates[0].map(function(array) {
+          let object = {};
+          object = {latitude: array[1], longitude: array[0]};
+          return object;
+        });
+      })
+      .then(result => {
+        setBorders(result);
+      })
+  };
+
   useEffect(() => {
     getLocation();
-    reverseLocation();
   }, []);
-
-  useInterval(() => {
-    getLocation();
+  
+  useEffect(() => {
     reverseLocation();
-  }, 3000);
+  }, [city]);
+  
+  useEffect(() => {
+    getBorders();
+  }, [city]);
+  
+  // useInterval(() => {
+  //   getLocation();
+  //   reverseLocation();
+  //   getBorders();
+  // }, 3000);
 
   return (
     <>
       <MapView 
         style={styles.map} 
-        provider={PROVIDER_GOOGLE}
+        // provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
         followsUserLocation={true}
         showsCompass={true}
@@ -54,8 +83,9 @@ const Map = () => {
           longitude: location.longitude,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01
-        }} 
-      />
+        }}>
+        <Polygon coordinates={borders} /> 
+      </MapView>  
       <View>
         <Text style={styles.text1}>
           {location.latitude} {' '} {location.longitude}
